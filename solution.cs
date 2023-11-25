@@ -1,26 +1,26 @@
-using System;
-using System.Collections.Generic;
-
-public class Node
+public class Solution
 {
-    public int val;
-    public IList<Node> neighbors;
+    private Dictionary<Node, Node> visited = new Dictionary<Node, Node>();
 
-    public Node()
+    public Node CloneGraph(Node node)
     {
-        val = 0;
-        neighbors = new List<Node>();
-    }
+        if (node == null)
+        {
+            return node;
+        }
 
-    public Node(int _val)
-    {
-        val = _val;
-        neighbors = new List<Node>();
-    }
+        if (visited.ContainsKey(node))
+        {
+            return visited[node];
+        }
 
-    public Node(int _val, List<Node> _neighbors)
-    {
-        val = _val;
-        neighbors = _neighbors;
+        Node cloneNode = new Node(node.val, new List<Node>());
+        visited[node] = cloneNode;
+
+        foreach (var neighbor in node.neighbors)
+        {
+            cloneNode.neighbors.Add(CloneGraph(neighbor));
+        }
+        return cloneNode;
     }
 }
